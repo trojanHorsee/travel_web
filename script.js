@@ -277,7 +277,7 @@ function fillGalleryPage() {
     let galleryImagePaths = activeCountryData.galleryItems;
     let html = "";
     for (let path of galleryImagePaths) {
-        html += `<img class="gallery-page__img" src="${path}" alt="" onclick="openLightbox('${path}')">`;
+        html += `<img class="gallery-page__img" src="${path}" alt="" loading="lazy" onclick="openLightbox('${path}')">`;
     }
     galleryPagePictures.innerHTML = html;
 }
