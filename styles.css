@@ -273,7 +273,7 @@ button {
     transition: all 0.3s;
 }
 
-.login-screen__check-btn:hover {
+.landing-page .login-screen__check-btn:hover {
     scale: 1.1;
 }
 
@@ -347,7 +347,7 @@ button {
 }
 
 
-/* 📱 🆕 YENİ MOBİL DASHBOARD MENÜ ALANI */
+/* Mobil Uygulama Menü Alanı */
 .map-page {
     display: flex;
     justify-content: center;
@@ -604,7 +604,7 @@ button {
 
     transform: rotate(-2deg);
 
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .gallery-page__img:nth-child(2n) { transform: rotate(2deg); }
@@ -613,11 +613,13 @@ button {
 .gallery-page__img:nth-child(7n) { transform: rotate(0deg); }
 .gallery-page__img:nth-child(11n) { transform: rotate(10deg); }
 
-.gallery-page__img:hover {
-    transform: scale(1.2) rotate(0deg) !important;
-    z-index: 100;
+/* ✨ Basılı tutunca / Tıklayınca parlayan neon pembe efekt alanı */
+.gallery-page__img:hover,
+.gallery-page__img:active {
+    transform: scale(1.08) rotate(0deg) !important;
+    z-index: 10;
     position: relative;
-    box-shadow: 0 15px 30px rgba(239, 35, 60, 0.4);
+    box-shadow: 0 0 20px #ff007f, 0 0 40px rgba(255, 0, 127, 0.6);
 }
 
 .page__return-btn {
@@ -653,31 +655,31 @@ button {
     scale: 1.1;
 }
 
+/* 🔐 MÜHÜRLENMİŞ LIGHTBOX (Arka sızıntıyı engeller) */
 .lightbox {
-    width: 100%;
-    height: 100vh;
-
     position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 300;
-
-    background-color: rgb(41, 43, 45);
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2000;
+    background-color: rgba(0, 0, 0, 0.98); /* Tam karanlık siyah */
 }
 
 .lightbox__wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-
     position: relative;
-
     width: 100%;
-    height: 100vh;
+    height: 100%;
 }
 
+/* 📱 Mobil Ekran Koruyucu Entegrasyonu */
 .lightbox__img {
-    height: 85vh;
+    max-width: 92%;
+    max-height: 80vh;
+    object-fit: contain; /* Fotoğrafı kırpmadan ekrana tam sığdırır */
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
 }
 
 .lightbox__x-btn {
@@ -857,6 +859,7 @@ button {
     cursor: pointer;
 }
 
+/* 🔐 ANILAR SAYFASI LIGHTBOX (Tam Koruma) */
 .story-page__lightbox {
     display: flex;
     flex-direction: column;
@@ -865,14 +868,12 @@ button {
     gap: 2rem;
 
     position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 300;
-
-    width: 100%;
+    inset: 0;
+    width: 100vw;
     height: 100vh;
+    z-index: 2000;
 
-    background-color: rgb(41, 43, 45);
+    background-color: rgba(0, 0, 0, 0.98);
 }
 
 .story-page__lightbox-btns {
@@ -939,9 +940,8 @@ button {
 }
 
 .event-content__img {
-    height: 75vh;
-    max-width: 80%;
-
+    max-width: 92%;
+    max-height: 75vh;
     object-fit: contain;
 }
 
@@ -1048,7 +1048,6 @@ button {
 
 /* =========================================
    MOBILE RESPONSIVENESS
-   (Telefonlar ve Tabletler için düzenlemeler)
    ========================================= */
 
 @media screen and (max-width: 768px) {
@@ -1115,7 +1114,7 @@ button {
         max-height: 80vh;
     }
 
-    /* --- Ülke Sayfası (Slayt ve Butonlar) --- */
+    /* --- Ülke Sayfası --- */
     .country-page {
         flex-direction: column;
         padding: 10px;
@@ -1154,28 +1153,21 @@ button {
     }
 
     .gallery-page__pictures {
-        column-count: 1;
+        column-count: 1; /* Tek sütun podyum düzeni */
         column-gap: 0;
     }
 
     .gallery-page__img {
         margin-bottom: 30px;
-        transform: rotate(0deg) !important;
+        transform: rotate(0deg) !important; /* Karmaşayı önlemek için düz hizalama */
         border-width: 0.5rem;
         border-bottom-width: 2rem;
     }
 
-    /* --- Hikaye (Timeline) Sayfası --- */
-    .story-page {
-        padding: 0 10px;
-    }
-
-    .timeline {
-        width: 100%;
-    }
-
-    .timeline__after {
+    /* --- 🛠️ ÇİZGİ HATASI DÜZELTME ALANI --- */
+    .timeline::after {
         left: 20px;
+        transform: none;
     }
 
     .timeline__event {
@@ -1215,7 +1207,7 @@ button {
         margin-bottom: 20px;
     }
 
-    /* --- Lightbox ve Dönüş Butonları --- */
+    /* --- Mobil Lightbox Ayarları --- */
     .page__return-btn {
         right: 15px;
         bottom: 15px;
@@ -1225,14 +1217,15 @@ button {
 
     .lightbox__x-btn, 
     .story-page__lightbox-btn--x {
-        right: 20px;
-        top: 20px;
-        width: 50px;
-        height: 50px;
+        right: 15px;
+        top: 15px;
+        width: 45px;
+        height: 45px;
+        font-size: 1.5rem;
     }
     
     .story-page__lightbox-btns {
         position: absolute;
-        bottom: 10vh;
+        bottom: 5vh;
     }
 }
