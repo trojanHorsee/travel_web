@@ -13,7 +13,6 @@
     --heart-font: "Caveat", cursive;
 }
 
-
 * {
     margin: 0;
     padding: 0;
@@ -98,7 +97,6 @@ button {
     flex-direction: column;
 
     height: 85vh;
-    
 }
 
 
@@ -349,38 +347,74 @@ button {
 }
 
 
-/* map page */
+/* 📱 🆕 YENİ MOBİL DASHBOARD MENÜ ALANI */
 .map-page {
     display: flex;
     justify-content: center;
     align-items: center;
-
     height: 100%;
-
-    pointer-events: none;
-
-    overflow: hidden;
+    overflow-y: auto;
+    padding: 20px 0;
 }
 
-.map-container {
+.menu-container {
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.menu-title {
+    font-family: var(--title-font);
+    font-size: 2.8rem;
+    color: var(--text-color);
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.menu-subtitle {
+    font-family: var(--text-font);
+    font-size: 1.2rem;
+    color: var(--text-color);
+    opacity: 0.85;
+    margin-bottom: 35px;
+}
+
+.menu-grid {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.menu-card {
+    display: flex;
     align-items: center;
-
-    width: 65%;
-    height: 80%;
-
-    overflow: hidden;
-
-    padding: 5px;
-
-    border: 10px solid white;
+    gap: 20px;
+    padding: 20px;
     border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.85);
+    border: 3px solid rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(89, 13, 34, 0.06);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s, background-color 0.3s;
+}
 
-    background-color: #48cae4;
-    background-image: radial-gradient(circle, #90e0ef 0%, #0077b6 100%);
+.menu-card:hover, .menu-card:active {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 15px 30px rgba(239, 35, 60, 0.18);
+    background-color: #fffdf0;
+}
 
-    box-shadow: 0 0 40px rgba(239, 35, 60, 0.5);
+.menu-card__icon {
+    font-size: 2.8rem;
+}
+
+.menu-card__name {
+    font-family: var(--btn-font);
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-color);
 }
 
 
@@ -437,10 +471,7 @@ button {
 
     display: none;
 
-    /* border-radius: 10px; */
     overflow: hidden;
-
-    /* box-shadow: 0 4px 10px rgba(0,0,0,0.6); */
 
     animation: fade 0.5s;
 }
@@ -576,25 +607,11 @@ button {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.gallery-page__img:nth-child(2n) {
-    transform: rotate(2deg);
-}
-
-.gallery-page__img:nth-child(3n) {
-    transform: rotate(-4deg);
-}
-
-.gallery-page__img:nth-child(5n) {
-    transform: rotate(4deg);
-}
-
-.gallery-page__img:nth-child(7n) {
-    transform: rotate(0deg);
-}
-
-.gallery-page__img:nth-child(11n) {
-    transform: rotate(10deg);
-}
+.gallery-page__img:nth-child(2n) { transform: rotate(2deg); }
+.gallery-page__img:nth-child(3n) { transform: rotate(-4deg); }
+.gallery-page__img:nth-child(5n) { transform: rotate(4deg); }
+.gallery-page__img:nth-child(7n) { transform: rotate(0deg); }
+.gallery-page__img:nth-child(11n) { transform: rotate(10deg); }
 
 .gallery-page__img:hover {
     transform: scale(1.2) rotate(0deg) !important;
@@ -633,7 +650,6 @@ button {
 
 .page__return-btn:hover {
     background-color: var(--hover-color);
-
     scale: 1.1;
 }
 
@@ -795,13 +811,11 @@ button {
 
 .timeline__event--left .event-content::after {
     content: "👉";
-    
     right: -2.5rem;
 }
 
 .timeline__event--right .event-content::after {
     content: "👈";
-    
     left: -2.5rem;
 }
 
@@ -864,7 +878,6 @@ button {
 .story-page__lightbox-btns {
     display: flex;
     gap: 3rem;
-    
 }
 
 .story-page__lightbox-btn {
@@ -893,12 +906,6 @@ button {
 
 .story-page__lightbox-btn:active {
     scale: 0.98;
-}
-
-.story-page__lightbox-btn--x {
-    position: absolute;
-    top: 2rem;
-    right: 2rem;
 }
 
 .story-page__lightbox-btn--x {
@@ -932,8 +939,6 @@ button {
 }
 
 .event-content__img {
-    /* display: none; */
-
     height: 75vh;
     max-width: 80%;
 
@@ -956,7 +961,6 @@ button {
 .mission-cards {
     column-count: 4;
     column-gap: 50px;
-    /* margin-bottom: 100px; */
 }
 
 .mission-card {
@@ -983,25 +987,11 @@ button {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.mission-card:nth-child(2n) {
-    transform: rotate(2deg);
-}
-
-.mission-card:nth-child(3n) {
-    transform: rotate(-4deg);
-}
-
-.mission-card:nth-child(5n) {
-    transform: rotate(4deg);
-}
-
-.mission-card:nth-child(7n) {
-    transform: rotate(0deg);
-}
-
-.mission-card:nth-child(11n) {
-    transform: rotate(10deg);
-}
+.mission-card:nth-child(2n) { transform: rotate(2deg); }
+.mission-card:nth-child(3n) { transform: rotate(-4deg); }
+.mission-card:nth-child(5n) { transform: rotate(4deg); }
+.mission-card:nth-child(7n) { transform: rotate(0deg); }
+.mission-card:nth-child(11n) { transform: rotate(10deg); }
 
 .mission-card:hover {
     transform: scale(1.08) rotate(0deg) !important;
@@ -1049,60 +1039,12 @@ button {
 }
 
 
-/* svg map css */
-.map-page svg {
-    width: 100%;
-    height: 100%;
-
-    display: block;
-
-    touch-action: none;
-}
-
-.map-page path {
-    fill: #e9ecef;
-
-    transition: 0.3s ease-in;
-
-    stroke: black; 
-    stroke-width: 0.7px;
-}
-
-.map-page .Turkey {
-    fill: #E30A17;
-
-    cursor: pointer;
-}
-
-.map-page path[class="United States"] {
-    fill: #3C3B6E; 
-
-    cursor: pointer;
-}
-
-.map-page #DE {
-    fill: #FFCC00;
-
-    cursor: pointer;
-}
-
-.map-page path:hover {
-    filter: brightness(0.8);
-}
-
-.map-page .Turkey:hover, .map-page path[class="United States"]:hover, .map-page #DE:hover {
-    filter: brightness(1.5)
-}
-
-
 /* svg heart css */
 .hearts-layer svg {
     position: absolute;
     inset: 0;
 }
 
-
-/* mobile responsiveness */
 
 /* =========================================
    MOBILE RESPONSIVENESS
@@ -1113,18 +1055,37 @@ button {
 
     /* --- Genel Ayarlar --- */
     .header {
-        height: 10vh; /* Header küçüldü */
+        height: 10vh;
         padding: 0.8rem 1rem;
-        font-size: 1.2rem; /* Font küçüldü */
+        font-size: 1.2rem;
     }
 
     .main {
-        height: 90vh; /* Header küçüldüğü için main uzadı */
+        height: 90vh;
+    }
+
+    /* --- Yeni Mobil Menü Ekranı --- */
+    .menu-title {
+        font-size: 2.2rem;
+    }
+    .menu-subtitle {
+        font-size: 1rem;
+        margin-bottom: 25px;
+    }
+    .menu-card {
+        padding: 15px 20px;
+        border-radius: 20px;
+    }
+    .menu-card__icon {
+        font-size: 2.3rem;
+    }
+    .menu-card__name {
+        font-size: 1.2rem;
     }
 
     /* --- Giriş Ekranı (Login) --- */
     .login-screen {
-        width: 90%; /* Mobilde genişlik arttı */
+        width: 90%;
         height: auto;
         padding: 40px 20px;
         gap: 2rem;
@@ -1141,38 +1102,31 @@ button {
 
     .login-screen__password-input,
     .login-screen__check-btn {
-        width: 80%; /* Buton ve input genişletildi */
+        width: 80%;
     }
 
     /* --- Mektup Ekranı --- */
     .letter {
         width: 95%;
         padding: 30px 20px;
-        font-size: 1.3rem; /* Mobilde okunabilirlik için font ayarı */
+        font-size: 1.3rem;
         margin-top: 100px;
-        overflow-y: auto; /* Mektup çok uzunsa kaydırma */
+        overflow-y: auto;
         max-height: 80vh;
-    }
-
-    /* --- Harita Sayfası --- */
-    .map-container {
-        width: 95%;
-        height: 60vh;
-        border-width: 5px; /* Çerçeve inceltildi */
     }
 
     /* --- Ülke Sayfası (Slayt ve Butonlar) --- */
     .country-page {
-        flex-direction: column; /* Yan yana yerine alt alta */
+        flex-direction: column;
         padding: 10px;
         justify-content: start;
         gap: 20px;
-        overflow-y: auto; /* İçerik taşarsa scroll */
+        overflow-y: auto;
     }
 
     .slide-show {
         width: 100%;
-        height: 50vh; /* Resim alanı küçüldü */
+        height: 50vh;
     }
 
     .slide-show__country-title {
@@ -1181,7 +1135,7 @@ button {
 
     .country-page__btns {
         display: grid;
-        grid-template-columns: 1fr 1fr; /* Butonlar 2x2 ızgara */
+        grid-template-columns: 1fr 1fr;
         width: 100%;
         gap: 10px;
         height: auto;
@@ -1189,7 +1143,7 @@ button {
     }
 
     .country-page__btn {
-        width: 100%; /* Izgaraya tam otursun */
+        width: 100%;
         height: 3.5rem;
         font-size: 1.1rem;
     }
@@ -1200,13 +1154,13 @@ button {
     }
 
     .gallery-page__pictures {
-        column-count: 1; /* Mobilde tek sütun */
+        column-count: 1;
         column-gap: 0;
     }
 
     .gallery-page__img {
         margin-bottom: 30px;
-        transform: rotate(0deg) !important; /* Mobilde resimleri düzelt, karmaşa olmasın */
+        transform: rotate(0deg) !important;
         border-width: 0.5rem;
         border-bottom-width: 2rem;
     }
@@ -1220,35 +1174,31 @@ button {
         width: 100%;
     }
 
-    /* Çizgiyi sola al */
-    .timeline::after {
+    .timeline__after {
         left: 20px;
     }
 
-    /* Etkinlik kutularını düzenle */
     .timeline__event {
-        flex-direction: column; /* Mobilde dikey hizalama */
-        align-items: flex-end; /* İçeriği sağa yasla */
+        flex-direction: column;
+        align-items: flex-end;
         margin: 2rem 0;
     }
 
     .event-content {
-        width: 85%; /* Genişlik artırıldı */
+        width: 85%;
     }
 
-    /* Noktaları sola al */
     .timeline__event::after {
         left: 20px;
-        top: 0; /* Noktayı biraz yukarı al */
+        top: 0;
     }
 
-    /* Konuşma balonu oklarını düzelt */
     .timeline__event--left .event-content::after,
     .timeline__event--right .event-content::after {
-        left: -15px; /* Hepsi soldan çıksın */
+        left: -15px;
         right: auto;
         top: 10px;
-        content: "👈"; /* Hepsi sola baksın */
+        content: "👈";
     }
 
     /* --- Hayaller (Mission) Sayfası --- */
@@ -1257,11 +1207,11 @@ button {
     }
 
     .mission-cards {
-        column-count: 1; /* Tek sütun */
+        column-count: 1;
     }
 
     .mission-card {
-        transform: rotate(0deg) !important; /* Kartları düzelt */
+        transform: rotate(0deg) !important;
         margin-bottom: 20px;
     }
 

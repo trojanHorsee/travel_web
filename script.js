@@ -1,6 +1,5 @@
 let activeCountryData = null
 
-
 //pages
 const mapPage =  document.querySelector(".map-page")
 const countryPage = document.querySelector(".country-page")
@@ -9,18 +8,12 @@ const storyPage = document.querySelector(".story-page")
 const missionPage = document.querySelector(".mission-page")
 const landingPage = document.querySelector(".landing-page")
 
-
-//map-page
-const map = document.getElementById("map-svg")
-
-
 //landing-page
 const passwordInput = document.getElementById("password-input")
 const heartsLayer = document.getElementById("hearts-layer")
 const letterScreen = document.getElementById("letter-screen")
 const loginScreen = document.getElementById("login-screen")
 const letter = document.getElementById("letter")
-
 
 //country-page
 const countryPageBtnReturn = document.getElementById("country-page__btn--return")
@@ -31,12 +24,10 @@ for (let i = 0; i < 5; i++) {
 }
 let currSlideIndex = 0
 
-
 //gallery-page
 const galleryPagePictures = document.getElementById("gallery-page__pictures")
 const lightbox = document.getElementById("lightbox")
 const lightboxImage = document.getElementById("lightbox__img")
-
 
 //story-page
 const timeline = document.getElementById("timeline")
@@ -47,10 +38,8 @@ const eventImage = document.getElementById("event-content__img")
 let currLightboxSlideIndex = 0
 let currEventImages = []
 
-
 //mission-page
 const missionCards = document.getElementById("mission-cards")
-
 
 //breadcrumb
 const breadcrumbMap = document.getElementById("breadcrumb__map")
@@ -61,33 +50,18 @@ const breadcrumbStoryGalleryMission = document.getElementById("breadcrumb__story
 let pageID = 0
 
 
-//country selection
-map.addEventListener("click", function(event) {
-
-    const tagName = event.target.tagName //get the clicked item's tagname
-
-    //check if the user clicked on a country (tagname===path)
-    if (tagName === 'path' || tagName === 'PATH') {
-        let country = event.target.id //get the id of that country
-
-        //if the country has a class instead of id
-        if (!country) {
-            country = countryIdMap[event.target.getAttribute('class')]
-        }
-
-        activeCountryData = siteData[country] //get the data of that country
-
-        //if the selected country has a data render the country page
-        if (activeCountryData) {
-            changePage(1)
-        }
+// 📱 YENI MENÜ SEÇİM FONKSİYONU
+// Tıklanan kartın ülke kodunu alır, datayı bağlar ve sayfayı açar.
+function selectCountry(countryCode) {
+    activeCountryData = siteData[countryCode];
+    if (activeCountryData) {
+        changePage(1);
     }
-})
+}
 
 
 //header breadcrumb
 function updateBreadcrumb(page) {
-    //reset everything
     breadcrumbMap.classList.remove("breadcrumb__item--active")
     breadcrumbCountry.classList.remove("breadcrumb__item--active")
     breadcrumbStoryGalleryMission.classList.remove("breadcrumb__item--active")
@@ -122,19 +96,15 @@ function updateBreadcrumb(page) {
             } else {
                 breadcrumbStoryGalleryMission.textContent = "HAYALLER"
             }
-            
             break;
     }
 }
 
-
 //change the current page
 function changePage(id) {
     pageID = id
-    //set breadcrumb
     updateBreadcrumb(pageID)
 
-    //reset everything
     mapPage.classList.add("hidden")
     countryPage.classList.add("hidden")
     galleryPage.classList.add("hidden")
@@ -143,15 +113,14 @@ function changePage(id) {
     galleryPagePictures.innerHTML = ""
     missionCards.innerHTML = ""
     timeline.innerHTML = ""
-    
 
     if (slideShowImages[currSlideIndex]) {
-    slideShowImages[currSlideIndex].style.display = "none";
+        slideShowImages[currSlideIndex].style.display = "none";
     }
     currSlideIndex = 0
 
     switch(id) {
-        case 0: //map-page
+        case 0: //menu-page
             mapPage.classList.remove("hidden")
             break;
         case 1: //country-page
@@ -173,53 +142,35 @@ function changePage(id) {
     }
 }
 
-
-//landing page
+//landing page heart animation
 function createHeart() {
-    //create heart div
     const heart = document.createElement("div");
     heart.classList.add("heart");
 
-    //create heart text
     const heartLoveText = document.createElement("span")
     heartLoveText.classList.add("heart__love-txt")
 
-    //place svg and text
     heart.innerHTML = heartSvg
-    
-    //random x placement
     heart.style.left = Math.random() * 100 + "vw"
 
-    //random animation duration
     const duration = Math.random() * 5 + 8
     heart.style.animationDuration = duration + "s";
 
-    //random size
     const widthANDheight = heartSizes[Math.floor(Math.random() * heartSizes.length)]
     heart.style.width = widthANDheight + "px"
     heart.style.height = widthANDheight + "px"
 
-    //random color
     const color = heartColors[Math.floor(Math.random() * heartColors.length)]
     const heartPathElement = heart.querySelector("path")
     heartPathElement.style.fill = color[0]
     heartPathElement.style.stroke = color[0]
 
-    //set text
     heartLoveText.textContent = iLoveYouTexts[Math.floor(Math.random() * iLoveYouTexts.length)]
-
-    //set text color
     heartLoveText.style.color = color[1]
-
-    //set text size
     heartLoveText.style.fontSize = widthANDheight * 0.2 + "px"
 
-    //put text into heart
     heart.appendChild(heartLoveText)
-
-    //put heart into hearts layer
     heartsLayer.appendChild(heart)
-
 
     setTimeout(function() {
         heart.remove() 
@@ -236,7 +187,6 @@ function displayLetter() {
     if (checkPassword()) {
         loginScreen.classList.add("hidden")
         letterScreen.classList.remove("hidden")
-
         letterScreen.style.animation = "letterStageFadeIn 2s linear"
 
         setTimeout( function() {
@@ -258,7 +208,6 @@ function displayLetter() {
     }
 }
 
-
 //filling country page
 function fillCountryPage() {
     let slideShowImagePaths = []
@@ -275,9 +224,10 @@ function fillCountryPage() {
     slideShow(currSlideIndex)
 }
 
-//country page slide show
 function slideShow(index) {
-    slideShowImages[index].style.display = "block"
+    if(slideShowImages[index]) {
+        slideShowImages[index].style.display = "block"
+    }
 }
 
 function slideBtn(move) {
@@ -286,67 +236,54 @@ function slideBtn(move) {
     slideShow(currSlideIndex)
 }
 
-
 //filling gallery page
 function fillGalleryPage() {
-    let galleryImagePaths = []
-    galleryImagePaths = activeCountryData.galleryItems
-
+    let galleryImagePaths = activeCountryData.galleryItems
     let html = ""
     for (let path of galleryImagePaths) {
         html += `<img class="gallery-page__img" src="${path}" alt="" onclick="openLightbox('${path}')">`
     }
-
     galleryPagePictures.innerHTML = html
 }
 
 function openLightbox(path) {
     lightboxImage.src = path;
-
     lightbox.classList.remove("hidden")
     document.body.classList.add("no-scroll")
 }
 
 function closeLightbox() {
     lightboxImage.src = ""
-
     lightbox.classList.add("hidden")
     document.body.classList.remove("no-scroll")
 }
 
-
 //filling story page
 function fillStoryPage() {
     for ( let i = 0; i < activeCountryData.storyItems.length; i++) {
-        //img
         let eventImageText = document.createElement("p")
         eventImageText.classList.add("event-content__imgs-txt")
-        eventImageText.textContent = `[   FOTOĞRAFLAR (${activeCountryData.storyItems[i].image.length})   ]`
+        eventImageText.textContent = `[    FOTOĞRAFLAR (${activeCountryData.storyItems[i].image.length})    ]`
 
         let images = activeCountryData.storyItems[i].image
         
-
         eventImageText.addEventListener("click", function() {
             currEventImages = images
             openStoryPageLightbox()
         })
 
-        //text
         let eventText = document.createElement("p")
         eventText.textContent = activeCountryData.storyItems[i].text
         eventText.classList.add("event-content__text")
 
-        //title
         let eventTitle = document.createElement("h3")
         eventTitle.textContent = activeCountryData.storyItems[i].title
         eventTitle.classList.add("event-content__title")
 
-        //date
         let eventDate = document.createElement("p")
         eventDate.textContent = activeCountryData.storyItems[i].date
         eventDate.classList.add("event-content__date")
 
-        //content wrapper
         let eventContent = document.createElement("div")
         eventContent.classList.add("event-content")
         eventContent.appendChild(eventDate)
@@ -355,9 +292,7 @@ function fillStoryPage() {
         if (activeCountryData.storyItems[i].image.length > 0) {
             eventContent.appendChild(eventImageText)
         }
-        
 
-        //event wrapper
         let timelineEvent = document.createElement("div")
         timelineEvent.classList.add("timeline__event")
         if (i % 2 == 0) {
@@ -366,7 +301,6 @@ function fillStoryPage() {
             timelineEvent.classList.add("timeline__event--right")
         }
         timelineEvent.appendChild(eventContent)
-        
         timeline.appendChild(timelineEvent)
     }
 }
@@ -378,9 +312,7 @@ function openStoryPageLightbox() {
     } else {
         storyPageLightboxBtnWrapper.classList.remove("hidden")
     }
-
     document.body.classList.add("no-scroll")
-
     storyPageSlideShow()
 }
 
@@ -390,6 +322,7 @@ function closeStoryPageLightbox() {
     document.body.classList.remove("no-scroll")
 }
 
+//story page lightbox slideshow
 function storyPageSlideShow() {
     eventImage.src = currEventImages[currLightboxSlideIndex]
 }
@@ -399,10 +332,8 @@ function lightboxSlideBtn(move) {
     storyPageSlideShow()
 }
 
-
 //filling mission page
 function fillMissionPage() {
-
     for (let i = 0; i < activeCountryData.missionItems.length; i++) {
         let missionCard = document.createElement("div")
         let missionCardMissionText = document.createElement("h3")
@@ -427,46 +358,3 @@ function fillMissionPage() {
         missionCards.appendChild(missionCard)
     } 
 }
-
-
-//map
-window.onload = function () {
-
-    const panZoom = svgPanZoom('#map-svg', {
-        zoomEnabled: true,
-        panEnabled: true,
-        fit: true,
-        center: true,
-        minZoom: 0.97,
-        maxZoom: 10.55,
-        zoomScaleSensitivity: 0.15,
-        dblClickZoomEnabled: false,
-
-        beforePan: function (oldPan, newPan) {
-            const sizes = this.getSizes()
-
-            // 🔴 Güvenli alan (kenarlardan taşma payı)
-            const gutter = 80
-
-            // SVG'nin gerçek boyutu (zoom dahil)
-            const realWidth  = sizes.viewBox.width  * sizes.realZoom
-            const realHeight = sizes.viewBox.height * sizes.realZoom
-
-            // Container boyutu
-            const containerWidth  = sizes.width
-            const containerHeight = sizes.height
-
-            // Limitler
-            const minX = containerWidth  - realWidth  - gutter
-            const minY = containerHeight - realHeight - gutter
-            const maxX = gutter
-            const maxY = gutter
-
-            return {
-                x: Math.min(maxX, Math.max(minX, newPan.x)),
-                y: Math.min(maxY, Math.max(minY, newPan.y))
-            }
-        }
-    })
-}
-
