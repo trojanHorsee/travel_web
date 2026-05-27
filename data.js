@@ -113,10 +113,10 @@ const siteData =
                         Bence çok yakışıyoruz 🥰
                         `,
                 image: [
-                    "media/images/story-page/us/18-08/img0.jpeg",
-                    "media/images/story-page/us/18-08/img1.jpeg",
-                    "media/images/story-page/us/18-08/img2.jpeg",
-                    "media/images/story-page/us/18-08/img3.png"
+                    "media/images/story-page/us/18-08/img0.webp",
+                    "media/images/story-page/us/18-08/img1.webp",
+                    "media/images/story-page/us/18-08/img2.webp",
+                    "media/images/story-page/us/18-08/img3.webp"
                 ]
             },
             {
@@ -164,7 +164,7 @@ const siteData =
                         Rüyada sandım kendimi, o gece öyle tatlı uyudum ki 😇
                         `,
                 image: [
-                    "media/images/story-page/us/25-08/img0.png"
+                    "media/images/story-page/us/25-08/img0.webp"
                 ]
             },
             {
@@ -178,8 +178,8 @@ const siteData =
                         Seninle konuşan sadece ben olmalıyım 😅
                         `,
                 image: [
-                    "media/images/story-page/us/26-08/img0.png",
-                    "media/images/story-page/us/26-08/img1.jpeg"
+                    "media/images/story-page/us/26-08/img0.webp",
+                    "media/images/story-page/us/26-08/img1.webp"
                 ]
             },
             {
@@ -201,7 +201,7 @@ const siteData =
                         Ah azıcık cesaretim olsa 😑
                         `,
                 image: [
-                    "media/images/story-page/us/30-08/img0.png"
+                    "media/images/story-page/us/30-08/img0.webp"
                 ]
             },
             {
@@ -226,9 +226,9 @@ const siteData =
                         Hayatımın en güzel günlerinden biriydi. Asla unutmayacağım o günü.
                         `,
                 image: [
-                    "media/images/story-page/us/3-09/img0.jpeg",
-                    "media/images/story-page/us/3-09/img1.jpeg",
-                    "media/images/story-page/us/3-09/img2.jpeg",
+                    "media/images/story-page/us/3-09/img0.webp",
+                    "media/images/story-page/us/3-09/img1.webp",
+                    "media/images/story-page/us/3-09/img2.webp",
                 ]
             },
             {
@@ -238,7 +238,7 @@ const siteData =
                         Hayatımda verdiğim en doğru karar oldu 🥰.
                         `,
                 image: [
-                    "media/images/story-page/us/10-09/img0.jpeg"
+                    "media/images/story-page/us/10-09/img0.webp"
                 ]
             },
             {
@@ -267,7 +267,7 @@ const siteData =
                         1 saat yol gidip telefon almak hiçbir şey.
                         `,
                 image: [
-                    "media/images/story-page/us/20-09/img0.jpeg"
+                    "media/images/story-page/us/20-09/img0.webp"
                 ]
             },
             {
@@ -286,7 +286,7 @@ const siteData =
                 text: ` Güvenliğin arkamdan geldiği gün... 😱
                         `,
                 image: [
-                    "media/images/story-page/us/24-09/img0.jpeg"
+                    "media/images/story-page/us/24-09/img0.webp"
                 ]
             },
             {
