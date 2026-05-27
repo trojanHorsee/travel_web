@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <title>Diloş'a Sürpriz ❤️</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,6 +12,7 @@
     <body>
         
         <header class="header">
+            <div class="header__logo">❤️</div>
             <div class="breadcrumb">
                 <span id="breadcrumb__map" class="breadcrumb__item breadcrumb__item--active" onclick="changePage(0)">MENÜ</span>
                 <span id="breadcrumb__arrow0" class="breadcrumb__item hidden"> > </span>
@@ -19,63 +20,45 @@
                 <span id="breadcrumb__arrow1" class="breadcrumb__item hidden"> > </span>
                 <span id="breadcrumb__story-gallery-mission" class="breadcrumb__item"></span>
             </div>
-            <div class="header__logo">❤️ 14.02</div>
         </header>
 
         <main class="main">
 
-            <section class="landing-page hidden"> 
+            <!-- Giriş ve Kutlama Ekranı -->
+            <section class="landing-page"> 
                 <div id="hearts-layer" class="hearts-layer"></div>
 
-                <div id="login-screen" class="login-screen">
+                <!-- 🎂 YENİ: Doğum Günü Tebrik Kartı (İlk açılışta bu görünecek) -->
+                <div id="birthday-card" class="birthday-card fade-in">
+                    <h1 class="birthday-card__title">İyi ki Doğdun Diloş'um! 🎂</h1>
+                    <p class="birthday-card__text">Benim güzel sevgilim, hayatıma girdiğin o ilk günden beri dünyamı güzelleştiriyorsun. Yeni yaşın, kurduğumuz tüm o güzel hayallerin başlangıcı olsun. Seni çok ama çok seviyorum! ❤️</p>
+                    <button class="birthday-card__btn" onclick="showLoginScreen()">Hediyene Git 🎁</button>
+                </div>
+
+                <!-- 🔐 Şifre Ekranı (Doğum günü kartından sonra açılacak) -->
+                <div id="login-screen" class="login-screen hidden fade-in">
                     <div class="login-screen__header-group">
                         <h1 class="login-screen__title">Giriş Yap</h1>
                         <p class="login-screen__hint">Cevap Hayatımın En Güzel Günü 🤗</p>
                     </div>
-
                     <div class="login-screen__input-group">
                         <input id="password-input" class="login-screen__password-input" type="password" placeholder="****" maxlength="4">
-                        <button class="login-screen__check-btn" onclick="displayLetter()"><span class="check-btn__heart-icon">❣️</span>  GİRİŞ  <span class="check-btn__heart-icon">❣️</span></button>
+                        <!-- displayLetter() yerine checkLogin() fonksiyonunu tetikliyoruz -->
+                        <button class="login-screen__check-btn" onclick="checkLogin()"><span class="check-btn__heart-icon">❣️</span> GİRİŞ <span class="check-btn__heart-icon">❣️</span></button>
                     </div>
                 </div>
 
+                <!-- 💌 Eski Uzun Mektup Ekranı (İleride kullanmak için saklıyoruz, şu an hidden) -->
                 <div id="letter-screen" class="letter-screen hidden">
                     <div id="letter" class="letter">
-                        <p>Canım Sevgilim, Diloş'um,</p>
-                        <br>
-                        <p>Mektup açılıp kaymaya başladığında lütfen elimi sımsıkı tut sevgilim.
-                            Senin elin, sevgin, şefkatin artık benim için oksijen gibi.
-                            Benim için çok şey ifade ediyorsun, seni çok seviyorum.
-                        </p>
-                        <br>
-                        <p>Seni sevmek, benim için sadece bir duygu değil; her sabah uyanmak için en güzel sebebim,
-                            geleceğe dair kurduğum tüm hayallerin başrolü. Bu siteyi hazırlarken,
-                            parmaklarım klavyede gezinse de aklım hep seninleydi.
-                            Her bir satır kodda, senin gülüşünü, sesini ve bana hissettirdiklerini düşündüm.
-                        </p>
-                        <br>
-                        <p>Aşağıdaki menü, bizim hikayemizin taslağı. Şu an belki bazı noktalar uzak, bazı anılar özlem dolu...
-                            Ama biliyorum ki, o haritadaki boşlukları birlikte dolduracağız.
-                        </p>
-                        <br>
-                        <p>2026 yazı geldiğinde, hayalini kurduğumuz o Almanya sokaklarında yürürken,
-                            geriye dönüp bu günlere bakacağız ve "Başardık" diyeceğiz.
-                            O güne kadar, bu dijital dünya bizim sığınağımız olsun istedim.
-                            Seninle geçirdiğim her saniye, benim için dünyadaki en değerli hazine.
-                        </p>
-                        <br>
-                        <p>Mesafe ne kadar uzak olursa olsun, sen hep benim sol yanımda, en güvenli yerimdesin.
-                            Bu site, sana olan aşkımın, sabrımın ve umudumun sessiz bir mektubu.
-                        </p>
-                        <br>
-                        <p>İyi ki varsın, iyi ki benimsin. Doğum günün kutlu olsun bir tanem.</p>
-                        <br>
-                        <p>Seni Çok Seven, Serkan'ın</p>
+                        <p>Canım Sevgilim, Diloş'um,</p><br>
+                        <p>Mektup açılıp kaymaya başladığında lütfen elimi sımsıkı tut sevgilim...</p>
+                        <!-- İçeriğin geri kalanı durabilir, kod kalabalığı yapmasın diye kısalttım -->
                     </div>
                 </div>
             </section>
 
-            <section class="map-page">
+            <section class="map-page hidden fade-in">
                 <div class="menu-container">
                     <h2 class="menu-title">✨ Bizim Yolculuğumuz</h2>
                     <p class="menu-subtitle">Anılarımızı ve hayallerimizi seç sevgilim:</p>
@@ -97,7 +80,7 @@
                 </div>
             </section>
 
-            <section class="country-page hidden">
+            <section class="country-page hidden fade-in">
                 <div class="slide-show">
                     <h1 id="country-heading" class="slide-show__country-title"></h1>
                     <div class="slide-show__wrapper">
@@ -110,54 +93,63 @@
                         <button class="slide-show__btn slide-show__btn--next" onclick="slideBtn(1)">&#10095;</button>
                     </div>
                 </div>
-
-                <div class="country-page__btns">
-                    <button class="country-page__btn country-page__btn--gallery" onclick="changePage(2)">🖼️ Galeri</button>
-                    <button class="country-page__btn country-page__btn--story" onclick="changePage(3)">🎞️ Anılar</button>
-                    <button class="country-page__btn country-page__btn--mission" onclick="changePage(4)">🎯 Hayaller</button>
-                    <button class="country-page__btn country-page__btn--return" onclick="changePage(0)">Menüye Dön</button>
-                </div>
             </section>
 
-            <section class="gallery-page hidden">
-                <h1 class="gallery-page__title">📸 Anı Duvarı</h1>
+            <section class="gallery-page hidden fade-in">
+                <h1 class="page-title">📸 Anı Duvarı</h1>
                 <div id="gallery-page__pictures" class="gallery-page__pictures"></div>
-                <button class="page__return-btn" onclick="changePage(1)">Geri Dön</button>
 
                 <div id="lightbox" class="lightbox hidden">
                     <div class="lightbox__wrapper">
                         <img id="lightbox__img" class="lightbox__img" src="" alt="">
-                        <button class="lightbox__x-btn" onclick="closeLightbox()">X</button>
+                        <button class="lightbox__x-btn" onclick="closeLightbox()">✕</button>
                     </div>
                 </div>
             </section>
 
-            <section class="story-page hidden">
-                <h1 class="story-page__title">🎞️ Bizim Hikayemiz</h1>
+            <section class="story-page hidden fade-in">
+                <h1 class="page-title">🎞️ Bizim Hikayemiz</h1>
                 <div id="timeline" class="timeline">
-                    <div class="timeline__event timeline__event--left">
-                        <div class="event-content"></div>
                     </div>
-                </div>
-                <button class="page__return-btn" onclick="changePage(1)">Geri Dön</button>
 
-                <div id="story-page__lightbox" class="story-page__lightbox hidden">
-                    <img id="event-content__img" src="media/images/slide-show/usa/united-states0.jpg" alt="">
-                    <div id="story-page__lightbox-btns" class="story-page__lightbox-btns">
-                        <button class="story-page__lightbox-btn story-page__lightbox-btn--prev" onclick="lightboxSlideBtn(-1)">&#10094;</button>
-                        <button class="story-page__lightbox-btn story-page__lightbox-btn--next" onclick="lightboxSlideBtn(1)">&#10095;</button>
+                <div id="story-page__lightbox" class="lightbox hidden">
+                    <div class="lightbox__wrapper">
+                        <img id="event-content__img" class="lightbox__img" src="" alt="">
+                        <div id="story-page__lightbox-btns" class="story-page__lightbox-btns">
+                            <button class="story-page__lightbox-btn" onclick="lightboxSlideBtn(-1)">&#10094;</button>
+                            <button class="story-page__lightbox-btn" onclick="lightboxSlideBtn(1)">&#10095;</button>
+                        </div>
+                        <button id="story-page__lightbox-btn--x" class="lightbox__x-btn" onclick="closeStoryPageLightbox()">✕</button>
                     </div>
-                    <button id="story-page__lightbox-btn--x" class="story-page__lightbox-btn--x" onclick="closeStoryPageLightbox()">x</button>
                 </div>
             </section>
 
-            <section class="mission-page hidden">
-                <h1 class="mission-page__title">🎯 Hayaller</h1>
-                <div id="mission-cards" class="mission-cards"></div>
-                <button class="page__return-btn" onclick="changePage(1)">Geri Dön</button>
+            <section class="mission-page hidden fade-in">
+                <h1 class="page-title">🎯 Hayaller</h1>
+                <div id="mission-cards" class="mission-cards">
+                    </div>
             </section>
 
         </main>
+
+        <nav id="bottom-nav" class="bottom-nav hidden">
+            <div class="nav-item" onclick="changePage(0)" id="nav-menu">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-text">Menü</span>
+            </div>
+            <div class="nav-item" onclick="changePage(2)" id="nav-gallery">
+                <span class="nav-icon">📸</span>
+                <span class="nav-text">Galeri</span>
+            </div>
+            <div class="nav-item" onclick="changePage(3)" id="nav-story">
+                <span class="nav-icon">🎞️</span>
+                <span class="nav-text">Anılar</span>
+            </div>
+            <div class="nav-item" onclick="changePage(4)" id="nav-mission">
+                <span class="nav-icon">🎯</span>
+                <span class="nav-text">Hayaller</span>
+            </div>
+        </nav>
         
         <script src="data.js"></script>
         <script src="script.js"></script>

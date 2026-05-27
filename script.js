@@ -1,62 +1,75 @@
 let activeCountryData = null;
 
 // =========================================
-// 🚀 PAGES & DOM ELEMENTS
+// 🚀 DOM ELEMENTS
 // =========================================
-const mapPage = document.querySelector(".map-page");
+const dashboardPage = document.querySelector(".dashboard-page");
 const countryPage = document.querySelector(".country-page");
 const galleryPage = document.querySelector(".gallery-page");
 const storyPage = document.querySelector(".story-page");
 const missionPage = document.querySelector(".mission-page");
 const landingPage = document.querySelector(".landing-page");
 
-// landing-page
+// landing-page elements
+const birthdayCard = document.getElementById("birthday-card");
 const passwordInput = document.getElementById("password-input");
 const heartsLayer = document.getElementById("hearts-layer");
 const letterScreen = document.getElementById("letter-screen");
 const loginScreen = document.getElementById("login-screen");
 const letter = document.getElementById("letter");
 
-// country-page
-const countryPageBtnReturn = document.getElementById("country-page__btn--return");
+// country-page elements
 const countryHeading = document.getElementById("country-heading");
 let slideShowImages = [];
 for (let i = 0; i < 5; i++) {
-    slideShowImages.push(document.getElementById("slide-show__img" + i));
+    let imgEl = document.getElementById("slide-show__img" + i);
+    if(imgEl) slideShowImages.push(imgEl);
 }
 let currSlideIndex = 0;
 
-// gallery-page
+// gallery-page elements
 const galleryPagePictures = document.getElementById("gallery-page__pictures");
 const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightbox__img");
 
-// story-page
+// story-page elements
 const timeline = document.getElementById("timeline");
 const storyPageLightbox = document.getElementById("story-page__lightbox");
 const storyPageLightboxBtnWrapper = document.getElementById("story-page__lightbox-btns");
-const storyPageLightboxExitBtn = document.getElementById("story-page__lightbox-btn--x");
 const eventImage = document.getElementById("event-content__img");
 let currLightboxSlideIndex = 0;
 let currEventImages = [];
 
-// mission-page
+// mission-page elements
 const missionCards = document.getElementById("mission-cards");
 
-// breadcrumb
+// Bottom Nav & Breadcrumb
+const bottomNav = document.getElementById("bottom-nav");
+const navItems = document.querySelectorAll(".nav-item");
+
 const breadcrumbMap = document.getElementById("breadcrumb__map");
 const breadcrumbArrow0 = document.getElementById("breadcrumb__arrow0");
 const breadcrumbCountry = document.getElementById("breadcrumb__country");
 const breadcrumbArrow1 = document.getElementById("breadcrumb__arrow1");
 const breadcrumbStoryGalleryMission = document.getElementById("breadcrumb__story-gallery-mission");
+
 let pageID = 0;
 
 
 // =========================================
-// 📱 🆕 NEW NAVIGATION & HISTORY CONTROLLERS
+// ⚡ INITIALIZATION (BOŞ EKRAN ÇÖZÜMÜ)
 // =========================================
+window.addEventListener('DOMContentLoaded', () => {
+    // Eğer HTML'de landing-page gizlenmişse, sistemi direkt menüyle başlat (Geliştirme için)
+    if (landingPage && landingPage.classList.contains('hidden')) {
+        changePage(0, true);
+    }
+});
 
-// Mobil menü kartlarına tıklandığında ülkeyi seçen yeni fonksiyon
+
+// =========================================
+// 📱 NAVIGATION CONTROLLERS
+// =========================================
 function selectCountry(countryCode) {
     activeCountryData = siteData[countryCode];
     if (activeCountryData) {
@@ -64,24 +77,35 @@ function selectCountry(countryCode) {
     }
 }
 
-// Sayfa değiştirme fonksiyonu (History API destekli)
 function changePage(id, isBackButton = false) {
-    pageID = id;
-    
-    // Breadcrumb güncelleme
-    updateBreadcrumb(pageID);
+    // Ülke seçmeden alttaki sekmelere tıklarsa tatlı bir uyarı ver
+    if ((id === 2 || id === 3 || id === 4) && !activeCountryData) {
+        alert("Önce menüden bir yolculuk seçmelisin sevgilim 🥰");
+        return;
+    }
 
-    // 🚀 Eğer geri tuşuna basılarak gelinmediyse, bu geçişi tarayıcı geçmişine kaydet
+    pageID = id;
+
+    // Geçmişe kaydet (Fiziksel geri tuşu için)
     if (!isBackButton) {
         history.pushState({ pageID: id }, `Page ${id}`, `#page${id}`);
     }
 
-    // Tüm sayfaları gizle ve içerikleri sıfırla
-    mapPage.classList.add("hidden");
+    // Arayüzü güncelle
+    updateBreadcrumb(pageID);
+    updateBottomNav(pageID);
+
+    // Sayfaları Gizle (Dashboard map-page yerine kullanılıyor)
+    if(dashboardPage) dashboardPage.classList.add("hidden");
+    const mapPage = document.querySelector(".map-page");
+    if(mapPage) mapPage.classList.add("hidden");
+    
     countryPage.classList.add("hidden");
     galleryPage.classList.add("hidden");
     storyPage.classList.add("hidden");
     missionPage.classList.add("hidden");
+    
+    // Verileri temizle
     galleryPagePictures.innerHTML = "";
     missionCards.innerHTML = "";
     timeline.innerHTML = "";
@@ -91,53 +115,77 @@ function changePage(id, isBackButton = false) {
     }
     currSlideIndex = 0;
 
-    // İlgili sayfayı görünür yap
+    // Seçili sayfayı aç
     switch(id) {
-        case 0: // Ana Menü (Dashboard)
-            mapPage.classList.remove("hidden");
+        case 0: // Ana Menü
+            if(dashboardPage) dashboardPage.classList.remove("hidden");
+            if(mapPage) mapPage.classList.remove("hidden"); // Güvenlik amaçlı
+            bottomNav.classList.add("hidden"); // Ana menüdeyken alt bar görünmesin
+            activeCountryData = null; // Ülke seçimini sıfırla
             break;
-        case 1: // Ülke Detay Slayt Sayfası
+        case 1: // Ülke Detay
             countryPage.classList.remove("hidden");
+            bottomNav.classList.remove("hidden"); 
             fillCountryPage();
             break;
-        case 2: // Galeri Duvarı
+        case 2: // Galeri
             galleryPage.classList.remove("hidden");
+            bottomNav.classList.remove("hidden");
             fillGalleryPage();
             break;
-        case 3: // Kronolojik Anılar (Timeline)
+        case 3: // Anılar
             storyPage.classList.remove("hidden");
+            bottomNav.classList.remove("hidden");
             fillStoryPage();
             break;
-        case 4: // Hayaller (Mission)
+        case 4: // Hayaller
             missionPage.classList.remove("hidden");
+            bottomNav.classList.remove("hidden");
             fillMissionPage();
             break;
     }
 }
 
-// 📱 Telefonun veya tarayıcının fiziksel GERİ tuşunu yakalayan sihirli dinleyici
+// Fiziksel geri tuşunu yakala
 window.addEventListener("popstate", function (event) {
     if (event.state && event.state.pageID !== undefined) {
-        // Geçmişte kayıtlı state varsa oraya dön (isBackButton = true)
         changePage(event.state.pageID, true);
     } else {
-        // Eğer geçmişte state kalmadıysa (ilk giriş anı), varsayılan olarak menüye at
         changePage(0, true);
     }
 });
 
 
 // =========================================
-// ❤️ BREADCRUMB CONTROLLER
+// 🔄 UI UPDATERS (Breadcrumb & Bottom Nav)
 // =========================================
+function updateBottomNav(page) {
+    navItems.forEach(item => item.classList.remove("active"));
+    
+    if(page === 0 || page === 1) {
+        let navMenu = document.getElementById("nav-menu");
+        if(navMenu) navMenu.classList.add("active");
+    }
+    if(page === 2) {
+        let navGal = document.getElementById("nav-gallery");
+        if(navGal) navGal.classList.add("active");
+    }
+    if(page === 3) {
+        let navStory = document.getElementById("nav-story");
+        if(navStory) navStory.classList.add("active");
+    }
+    if(page === 4) {
+        let navMiss = document.getElementById("nav-mission");
+        if(navMiss) navMiss.classList.add("active");
+    }
+}
+
 function updateBreadcrumb(page) {
     breadcrumbMap.classList.remove("breadcrumb__item--active");
     breadcrumbCountry.classList.remove("breadcrumb__item--active");
     breadcrumbStoryGalleryMission.classList.remove("breadcrumb__item--active");
-
     breadcrumbArrow0.classList.add("hidden");
     breadcrumbArrow1.classList.add("hidden");
-
     breadcrumbCountry.textContent = "";
     breadcrumbStoryGalleryMission.textContent = "";
 
@@ -146,24 +194,24 @@ function updateBreadcrumb(page) {
             breadcrumbMap.classList.add("breadcrumb__item--active");
             break;
         case 1:
-            breadcrumbCountry.classList.add("breadcrumb__item--active");
-            breadcrumbArrow0.classList.remove("hidden");
-            breadcrumbCountry.textContent = activeCountryData.name.toUpperCase();
+            if(activeCountryData) {
+                breadcrumbCountry.classList.add("breadcrumb__item--active");
+                breadcrumbArrow0.classList.remove("hidden");
+                breadcrumbCountry.textContent = activeCountryData.name.toUpperCase();
+            }
             break;
         case 2:
         case 3:
         case 4:
-            breadcrumbStoryGalleryMission.classList.add("breadcrumb__item--active");
-            breadcrumbArrow0.classList.remove("hidden");
-            breadcrumbArrow1.classList.remove("hidden");
-            breadcrumbCountry.textContent = activeCountryData.name.toUpperCase();
-
-            if (page === 2) {
-                breadcrumbStoryGalleryMission.textContent = "GALERİ";
-            } else if (page === 3) {
-                breadcrumbStoryGalleryMission.textContent = "ANILAR";
-            } else {
-                breadcrumbStoryGalleryMission.textContent = "HAYALLER";
+            if(activeCountryData) {
+                breadcrumbStoryGalleryMission.classList.add("breadcrumb__item--active");
+                breadcrumbArrow0.classList.remove("hidden");
+                breadcrumbArrow1.classList.remove("hidden");
+                breadcrumbCountry.textContent = activeCountryData.name.toUpperCase();
+                
+                if (page === 2) breadcrumbStoryGalleryMission.textContent = "GALERİ";
+                else if (page === 3) breadcrumbStoryGalleryMission.textContent = "ANILAR";
+                else breadcrumbStoryGalleryMission.textContent = "HAYALLER";
             }
             break;
     }
@@ -171,7 +219,7 @@ function updateBreadcrumb(page) {
 
 
 // =========================================
-// 💌 LANDING PAGE & LETTER SYSTEM
+// 💌 LANDING PAGE (BIRTHDAY CARD & LOGIN)
 // =========================================
 function createHeart() {
     const heart = document.createElement("div");
@@ -192,8 +240,10 @@ function createHeart() {
 
     const color = heartColors[Math.floor(Math.random() * heartColors.length)];
     const heartPathElement = heart.querySelector("path");
-    heartPathElement.style.fill = color[0];
-    heartPathElement.style.stroke = color[0];
+    if (heartPathElement) {
+        heartPathElement.style.fill = color[0];
+        heartPathElement.style.stroke = color[0];
+    }
 
     heartLoveText.textContent = iLoveYouTexts[Math.floor(Math.random() * iLoveYouTexts.length)];
     heartLoveText.style.color = color[1];
@@ -202,37 +252,32 @@ function createHeart() {
     heart.appendChild(heartLoveText);
     heartsLayer.appendChild(heart);
 
-    setTimeout(function() {
-        heart.remove();
-    }, (duration + 1) * 1000);
+    setTimeout(() => heart.remove(), (duration + 1) * 1000);
 }
 
 let heartInterval = setInterval(createHeart, 250);
+
+// Doğum günü kartından şifre ekranına geçiş
+function showLoginScreen() {
+    if(birthdayCard) birthdayCard.classList.add("hidden");
+    if(loginScreen) loginScreen.classList.remove("hidden");
+}
 
 function checkPassword() {
     return passwordInput.value === "1009";
 }
 
-function displayLetter() {
+// Şifre doğruysa uzun mektubu atlayıp direkt Menüye (Yolculuk) uçuran fonksiyon
+function checkLogin() {
     if (checkPassword()) {
         loginScreen.classList.add("hidden");
-        letterScreen.classList.remove("hidden");
-        letterScreen.style.animation = "letterStageFadeIn 2s linear";
-
-        setTimeout(function() {
-            letter.style.animation = "paperScroll 70s linear forwards";
-        }, 2500);
+        landingPage.style.animation = "landingPageFadeOut 1.5s linear forwards";
         
-        setTimeout(function() {
-            landingPage.style.animation = "landingPageFadeOut 2.5s linear";
-            setTimeout(function() {
-                clearInterval(heartInterval);
-                letterScreen.classList.add("hidden");
-                landingPage.classList.add("hidden");
-                mapPage.style.pointerEvents = "auto";
-                changePage(0);
-            }, 2500);
-        }, 70000);
+        setTimeout(() => {
+            clearInterval(heartInterval);
+            landingPage.classList.add("hidden");
+            changePage(0); // 0 = Dashboard (Ana Menü)
+        }, 1500);
     } else {
         alert("yanlış şifre bebek");
     }
@@ -240,43 +285,39 @@ function displayLetter() {
 
 
 // =========================================
-// 📸 COUNTRY SLIDESHOW SYSTEM
+// 📸 SLIDESHOW
 // =========================================
 function fillCountryPage() {
-    let slideShowImagePaths = [];
-    for (let i = 0; i < 5; i++) {
-        slideShowImagePaths.push(activeCountryData.slideShowItems[i]);
-    }
-
+    if(!activeCountryData) return;
+    
     countryHeading.textContent = activeCountryData.name;
-
     for (let i = 0; i < 5; i++) {
-        slideShowImages[i].src = slideShowImagePaths[i];
+        if(slideShowImages[i]) {
+            slideShowImages[i].src = activeCountryData.slideShowItems[i] || "";
+        }
     }
-
     slideShow(currSlideIndex);
 }
 
 function slideShow(index) {
-    if (slideShowImages[index]) {
-        slideShowImages[index].style.display = "block";
-    }
+    if (slideShowImages[index]) slideShowImages[index].style.display = "block";
 }
 
 function slideBtn(move) {
-    slideShowImages[currSlideIndex].style.display = "none";
+    if (slideShowImages[currSlideIndex]) slideShowImages[currSlideIndex].style.display = "none";
     currSlideIndex = (currSlideIndex + move + 5) % 5;
     slideShow(currSlideIndex);
 }
 
 
 // =========================================
-// 🖼️ GALLERY SYSTEM (LIGHTBOX)
+// 🖼️ GALLERY & LIGHTBOX
 // =========================================
 function fillGalleryPage() {
-    let galleryImagePaths = activeCountryData.galleryItems;
+    if(!activeCountryData) return;
+    
     let html = "";
-    for (let path of galleryImagePaths) {
+    for (let path of activeCountryData.galleryItems) {
         html += `<img class="gallery-page__img" src="${path}" alt="" loading="lazy" onclick="openLightbox('${path}')">`;
     }
     galleryPagePictures.innerHTML = html;
@@ -296,49 +337,49 @@ function closeLightbox() {
 
 
 // =========================================
-// 🎞️ TIMELINE STORY SYSTEM
+// 🎞️ STORY TIMELINE
 // =========================================
 function fillStoryPage() {
+    if(!activeCountryData) return;
+
     for (let i = 0; i < activeCountryData.storyItems.length; i++) {
-        let eventImageText = document.createElement("p");
-        eventImageText.classList.add("event-content__imgs-txt");
-        eventImageText.textContent = `[    FOTOĞRAFLAR (${activeCountryData.storyItems[i].image.length})    ]`;
-
-        let images = activeCountryData.storyItems[i].image;
+        let item = activeCountryData.storyItems[i];
         
-        eventImageText.addEventListener("click", function() {
-            currEventImages = images;
-            openStoryPageLightbox();
-        });
-
-        let eventText = document.createElement("p");
-        eventText.textContent = activeCountryData.storyItems[i].text;
-        eventText.classList.add("event-content__text");
-
-        let eventTitle = document.createElement("h3");
-        eventTitle.textContent = activeCountryData.storyItems[i].title;
-        eventTitle.classList.add("event-content__title");
-
-        let eventDate = document.createElement("p");
-        eventDate.textContent = activeCountryData.storyItems[i].date;
-        eventDate.classList.add("event-content__date");
-
         let eventContent = document.createElement("div");
         eventContent.classList.add("event-content");
+
+        let eventDate = document.createElement("p");
+        eventDate.classList.add("event-content__date");
+        eventDate.textContent = item.date;
+
+        let eventTitle = document.createElement("h3");
+        eventTitle.classList.add("event-content__title");
+        eventTitle.textContent = item.title;
+
+        let eventText = document.createElement("p");
+        eventText.classList.add("event-content__text");
+        eventText.textContent = item.text;
+
         eventContent.appendChild(eventDate);
         eventContent.appendChild(eventTitle);
         eventContent.appendChild(eventText);
-        if (activeCountryData.storyItems[i].image.length > 0) {
+
+        if (item.image && item.image.length > 0) {
+            let eventImageText = document.createElement("p");
+            eventImageText.classList.add("event-content__imgs-txt");
+            eventImageText.textContent = `[ 📸 FOTOĞRAFLAR (${item.image.length}) ]`;
+            
+            eventImageText.addEventListener("click", function() {
+                currEventImages = item.image;
+                openStoryPageLightbox();
+            });
             eventContent.appendChild(eventImageText);
         }
 
         let timelineEvent = document.createElement("div");
         timelineEvent.classList.add("timeline__event");
-        if (i % 2 == 0) {
-            timelineEvent.classList.add("timeline__event--left");
-        } else {
-            timelineEvent.classList.add("timeline__event--right");
-        }
+        timelineEvent.classList.add(i % 2 === 0 ? "timeline__event--left" : "timeline__event--right");
+        
         timelineEvent.appendChild(eventContent);
         timeline.appendChild(timelineEvent);
     }
@@ -346,11 +387,7 @@ function fillStoryPage() {
 
 function openStoryPageLightbox() {
     storyPageLightbox.classList.remove("hidden");
-    if (currEventImages.length === 1) {
-        storyPageLightboxBtnWrapper.classList.add("hidden");
-    } else {
-        storyPageLightboxBtnWrapper.classList.remove("hidden");
-    }
+    storyPageLightboxBtnWrapper.classList.toggle("hidden", currEventImages.length <= 1);
     document.body.classList.add("no-scroll");
     storyPageSlideShow();
 }
@@ -365,7 +402,6 @@ function storyPageSlideShow() {
     eventImage.src = currEventImages[currLightboxSlideIndex];
 }
 
-// Anı detay lightbox slayt değiştirme butonu
 function lightboxSlideBtn(move) {
     currLightboxSlideIndex = (currLightboxSlideIndex + move + currEventImages.length) % currEventImages.length;
     storyPageSlideShow();
@@ -373,27 +409,24 @@ function lightboxSlideBtn(move) {
 
 
 // =========================================
-// 🎯 MISSION CARDS SYSTEM
+// 🎯 MISSIONS
 // =========================================
 function fillMissionPage() {
+    if(!activeCountryData) return;
+
     for (let i = 0; i < activeCountryData.missionItems.length; i++) {
+        let item = activeCountryData.missionItems[i];
+        
         let missionCard = document.createElement("div");
+        missionCard.classList.add("mission-card", item.status ? "mission-card--true" : "mission-card--false");
+
         let missionCardMissionText = document.createElement("h3");
-        let missionCardStatus = document.createElement("p");
-
         missionCardMissionText.classList.add("mission-card__mission-text");
-        missionCard.classList.add("mission-card");
+        missionCardMissionText.textContent = item.mission;
+
+        let missionCardStatus = document.createElement("p");
         missionCardStatus.classList.add("mission-card__status");
-
-        missionCardMissionText.textContent = activeCountryData.missionItems[i].mission;
-
-        if (activeCountryData.missionItems[i].status) {
-            missionCard.classList.add("mission-card--true");
-            missionCardStatus.textContent = "✅ TAMAMLANDI";
-        } else {
-            missionCard.classList.add("mission-card--false");
-            missionCardStatus.textContent = "⌛️ YAPILACAK";
-        }
+        missionCardStatus.textContent = item.status ? "✅ TAMAMLANDI" : "⌛️ YAPILACAK";
 
         missionCard.appendChild(missionCardMissionText);
         missionCard.appendChild(missionCardStatus);
